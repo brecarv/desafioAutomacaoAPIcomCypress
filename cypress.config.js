@@ -5,7 +5,10 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl: "https://cena.reset.cwi.com.br/index.php/wp-json/wc/v3",
+    env: {
+      wooCommerce: "https://cena.reset.cwi.com.br/index.php/wp-json/wc/v3",
+      productsReviews: "/products/reviews",
+    },
     specPattern: "cypress/api/**/*.{js,jsx,ts,tsx}",
   },
 });
