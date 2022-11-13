@@ -1,0 +1,15 @@
+{
+  "name": "desafioautomacaoapicomcypress",
+  "version": "1.0.0",
+  "description": "CWI Reset - Automacao de API com Cypress incluindo testes de aceitação e contrato",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Emerson Carvalho",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "cypress": "^11.0.1"
+  }
+}
