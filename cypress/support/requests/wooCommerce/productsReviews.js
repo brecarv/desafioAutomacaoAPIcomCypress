@@ -7,3 +7,13 @@ Cypress.Commands.add("getProductsReviews", (token) => {
     },
   });
 });
+
+Cypress.Commands.add("getProductsReviewsByID", (token, id) => {
+  cy.request({
+    method: "GET",
+    url: Cypress.env("wooCommerce") + Cypress.env("productsReviews") + "/" + id,
+    headers: {
+      Authorization: token,
+    },
+  });
+});
