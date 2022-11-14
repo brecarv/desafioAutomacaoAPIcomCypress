@@ -1,4 +1,5 @@
 import { StatusCodes } from "http-status-codes";
+import { faker } from "@faker-js/faker";
 
 import tokenFixture from "../../fixtures/token.json";
 
@@ -34,6 +35,47 @@ describe("Product Reviews", () => {
       for (let i = 0; i < res.body.length; i++) {
         return productsReviewsSchema.validateAsync(res.body[i]);
       }
+    });
+  });
+
+  it("Create a product review - Aceitação", () => {
+    let productId = 22;
+    let reviewText =
+      faker.commerce.productDescription() + faker.company.companySuffix();
+    let name = faker.name.fullName();
+    let email = faker.internet.email(name);
+    let rating = faker.datatype.number(5);
+
+    cy.postProductsReviews(
+      tokenFixture.token,
+      productId,
+      reviewText,
+      name,
+      email,
+      rating
+    ).then((res) => {
+      expect(res).to.exist;
+      expect(res.status).to.eq(StatusCodes.CREATED);
+    });
+  });
+
+  it("Create a product review - Contrato", () => {
+    let productId = 22;
+    let reviewText =
+      faker.commerce.productDescription() + faker.company.companySuffix();
+    let name = faker.name.fullName();
+    let email = faker.internet.email(name);
+    let rating = faker.datatype.number(5);
+
+    cy.postProductsReviews(
+      tokenFixture.token,
+      productId,
+      reviewText,
+      name,
+      email,
+      rating
+    ).then((res) => {
+      return productsReviewsSchema.validateAsync(res.body);
     });
   });
 });

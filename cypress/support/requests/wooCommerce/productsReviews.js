@@ -17,3 +17,23 @@ Cypress.Commands.add("getProductsReviewsByID", (token, id) => {
     },
   });
 });
+
+Cypress.Commands.add(
+  "postProductsReviews",
+  (token, productId, reviewText, author, authorEmail, rating) => {
+    cy.request({
+      method: "POST",
+      url: Cypress.env("wooCommerce") + Cypress.env("productsReviews"),
+      headers: {
+        Authorization: token,
+      },
+      body: {
+        product_id: productId,
+        review: reviewText,
+        reviewer: author,
+        reviewer_email: authorEmail,
+        rating: rating,
+      },
+    });
+  }
+);
