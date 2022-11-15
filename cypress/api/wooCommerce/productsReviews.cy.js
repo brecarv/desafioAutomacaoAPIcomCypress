@@ -154,26 +154,58 @@ describe("Product Reviews", () => {
   });
 
   it("Delete a product review - Aceitação", () => {
-    let reviewId = 874;
-    let force = true;
+    let productId = 22;
+    let reviewText =
+      faker.commerce.productDescription() + faker.company.companySuffix();
+    let name = faker.name.fullName();
+    let email = faker.internet.email(name);
+    let rating = faker.datatype.number(5);
 
-    cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force).then(
-      (res) => {
-        expect(res).to.exist;
-        expect(res.status).to.eq(StatusCodes.OK);
-      }
-    );
+    cy.postProductsReviews(
+      tokenFixture.token,
+      productId,
+      reviewText,
+      name,
+      email,
+      rating
+    ).then((res) => {
+      let reviewId = res.body.id;
+      let force = true;
+
+      cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force).then(
+        (res) => {
+          expect(res).to.exist;
+          expect(res.status).to.eq(StatusCodes.OK);
+          expect(res.body.deleted).to.be.true;
+        }
+      );
+    });
   });
 
   it("Delete a product review - Contrato", () => {
-    let reviewId = 930;
-    let force = true;
+    let productId = 22;
+    let reviewText =
+      faker.commerce.productDescription() + faker.company.companySuffix();
+    let name = faker.name.fullName();
+    let email = faker.internet.email(name);
+    let rating = faker.datatype.number(5);
 
-    return cy
-      .deleteProductsReviewsByID(tokenFixture.token, reviewId, force)
-      .then((res) => {
-        expect(res.body.deleted).to.be.true;
-        return productsReviewsSchema.validateAsync(res.body.previous);
-      });
+    cy.postProductsReviews(
+      tokenFixture.token,
+      productId,
+      reviewText,
+      name,
+      email,
+      rating
+    ).then((res) => {
+      let reviewId = res.body.id;
+      let force = true;
+
+      cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force).then(
+        (res) => {
+          return productsReviewsSchema.validateAsync(res.body.previous);
+        }
+      );
+    });
   });
 });
