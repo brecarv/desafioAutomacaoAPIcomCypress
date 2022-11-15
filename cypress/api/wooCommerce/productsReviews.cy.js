@@ -111,4 +111,28 @@ describe("Product Reviews", () => {
       return productsReviewsSchema.validateAsync(res.body);
     });
   });
+
+  it("Delete a product review - Aceitação", () => {
+    let reviewId = 874;
+    let force = true;
+
+    cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force).then(
+      (res) => {
+        expect(res).to.exist;
+        expect(res.status).to.eq(StatusCodes.OK);
+      }
+    );
+  });
+
+  it.only("Delete a product review - Contrato", () => {
+    let reviewId = 930;
+    let force = true;
+
+    return cy
+      .deleteProductsReviewsByID(tokenFixture.token, reviewId, force)
+      .then((res) => {
+        expect(res.body.deleted).to.be.true;
+        return productsReviewsSchema.validateAsync(res.body.previous);
+      });
+  });
 });

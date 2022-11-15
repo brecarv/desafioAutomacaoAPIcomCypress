@@ -55,3 +55,19 @@ Cypress.Commands.add(
     });
   }
 );
+
+Cypress.Commands.add("deleteProductsReviewsByID", (token, id, force) => {
+  cy.request({
+    method: "DELETE",
+    url:
+      Cypress.env("wooCommerce") +
+      Cypress.env("productsReviews") +
+      "/" +
+      id +
+      "?force=" +
+      force,
+    headers: {
+      Authorization: token,
+    },
+  });
+});
