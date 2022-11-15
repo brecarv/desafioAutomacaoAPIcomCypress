@@ -38,7 +38,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it.only("Create a product review - Aceitação", () => {
+  it("Create a product review - Aceitação", () => {
     let productId = 22;
     let reviewText =
       faker.commerce.productDescription() + faker.company.companySuffix();
@@ -62,7 +62,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it.only("Create a product review - Contrato", () => {
+  it("Create a product review - Contrato", () => {
     let productId = 22;
     let reviewText =
       faker.commerce.productDescription() + faker.company.companySuffix();
@@ -85,35 +85,71 @@ describe("Product Reviews", () => {
   });
 
   it("Update a product review - Aceitação", () => {
-    let reviewId = 553;
+    let productId = 22;
     let reviewText =
       faker.commerce.productDescription() + faker.company.companySuffix();
+    let name = faker.name.fullName();
+    let email = faker.internet.email(name);
     let rating = faker.datatype.number(5);
 
-    cy.putProductsReviewsByID(
+    cy.postProductsReviews(
       tokenFixture.token,
-      reviewId,
+      productId,
       reviewText,
+      name,
+      email,
       rating
     ).then((res) => {
-      expect(res).to.exist;
-      expect(res.status).to.eq(StatusCodes.OK);
+      let reviewId = res.body.id;
+      let newReviewText = faker.lorem.sentence(5);
+      cy.putProductsReviewsByID(
+        tokenFixture.token,
+        reviewId,
+        newReviewText,
+        rating
+      ).then((res) => {
+        expect(res).to.exist;
+        expect(res.status).to.eq(StatusCodes.OK);
+        let force = true;
+        return cy.deleteProductsReviewsByID(
+          tokenFixture.token,
+          reviewId,
+          force
+        );
+      });
     });
   });
 
   it("Update a product review - Contrato", () => {
-    let reviewId = 553;
+    let productId = 22;
     let reviewText =
       faker.commerce.productDescription() + faker.company.companySuffix();
+    let name = faker.name.fullName();
+    let email = faker.internet.email(name);
     let rating = faker.datatype.number(5);
 
-    cy.putProductsReviewsByID(
+    cy.postProductsReviews(
       tokenFixture.token,
-      reviewId,
+      productId,
       reviewText,
+      name,
+      email,
       rating
     ).then((res) => {
-      return productsReviewsSchema.validateAsync(res.body);
+      let reviewId = res.body.id;
+      let newReviewText = faker.lorem.sentence(5);
+      cy.putProductsReviewsByID(
+        tokenFixture.token,
+        reviewId,
+        newReviewText,
+        rating
+      ).then((res) => {
+        let force = true;
+        return (
+          productsReviewsSchema.validateAsync(res.body.previous),
+          cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force)
+        );
+      });
     });
   });
 
