@@ -78,4 +78,37 @@ describe("Product Reviews", () => {
       return productsReviewsSchema.validateAsync(res.body);
     });
   });
+
+  it("Update a product review - Aceitação", () => {
+    let reviewId = 553;
+    let reviewText =
+      faker.commerce.productDescription() + faker.company.companySuffix();
+    let rating = faker.datatype.number(5);
+
+    cy.putProductsReviewsByID(
+      tokenFixture.token,
+      reviewId,
+      reviewText,
+      rating
+    ).then((res) => {
+      expect(res).to.exist;
+      expect(res.status).to.eq(StatusCodes.OK);
+    });
+  });
+
+  it("Update a product review - Contrato", () => {
+    let reviewId = 553;
+    let reviewText =
+      faker.commerce.productDescription() + faker.company.companySuffix();
+    let rating = faker.datatype.number(5);
+
+    cy.putProductsReviewsByID(
+      tokenFixture.token,
+      reviewId,
+      reviewText,
+      rating
+    ).then((res) => {
+      return productsReviewsSchema.validateAsync(res.body);
+    });
+  });
 });

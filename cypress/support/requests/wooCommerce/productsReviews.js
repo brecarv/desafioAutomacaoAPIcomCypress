@@ -37,3 +37,21 @@ Cypress.Commands.add(
     });
   }
 );
+
+Cypress.Commands.add(
+  "putProductsReviewsByID",
+  (token, id, reviewText, rating) => {
+    cy.request({
+      method: "PUT",
+      url:
+        Cypress.env("wooCommerce") + Cypress.env("productsReviews") + "/" + id,
+      headers: {
+        Authorization: token,
+      },
+      body: {
+        review: reviewText,
+        rating: rating,
+      },
+    });
+  }
+);
