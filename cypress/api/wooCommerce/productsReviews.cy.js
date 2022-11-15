@@ -38,7 +38,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it("Create a product review - Aceitação", () => {
+  it.only("Create a product review - Aceitação", () => {
     let productId = 22;
     let reviewText =
       faker.commerce.productDescription() + faker.company.companySuffix();
@@ -54,12 +54,15 @@ describe("Product Reviews", () => {
       email,
       rating
     ).then((res) => {
+      let reviewId = res.body.id;
+      let force = true;
       expect(res).to.exist;
       expect(res.status).to.eq(StatusCodes.CREATED);
+      return cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force);
     });
   });
 
-  it("Create a product review - Contrato", () => {
+  it.only("Create a product review - Contrato", () => {
     let productId = 22;
     let reviewText =
       faker.commerce.productDescription() + faker.company.companySuffix();
@@ -75,7 +78,9 @@ describe("Product Reviews", () => {
       email,
       rating
     ).then((res) => {
-      return productsReviewsSchema.validateAsync(res.body);
+      let reviewId = res.body.id;
+      let force = true;
+      return cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force);
     });
   });
 
@@ -124,7 +129,7 @@ describe("Product Reviews", () => {
     );
   });
 
-  it.only("Delete a product review - Contrato", () => {
+  it("Delete a product review - Contrato", () => {
     let reviewId = 930;
     let force = true;
 
