@@ -1,7 +1,9 @@
 /allure-report
 /allure-results
+/mochawesome-report
 /videos
 *.mp4
+mochawesome.json
 
 # Logs
 logs
