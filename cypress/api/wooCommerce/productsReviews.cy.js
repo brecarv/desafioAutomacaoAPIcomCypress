@@ -96,7 +96,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it("Create a product review - Contrato", () => {
+  it.only("Create a product review - Contrato", () => {
     let productId = 22;
     let reviewText =
       faker.commerce.productDescription() + faker.company.companySuffix();
@@ -114,7 +114,10 @@ describe("Product Reviews", () => {
     ).then((res) => {
       let reviewId = res.body.id;
       let force = true;
-      return cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force);
+      return (
+        productsReviewsSchema.validateAsync(res.body),
+        cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force)
+      );
     });
   });
 
