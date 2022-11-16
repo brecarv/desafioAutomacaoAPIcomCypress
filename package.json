@@ -8,7 +8,8 @@
     "cy:run": "cypress run",
     "cy:run:allure": "cypress run --env allure=true",
     "allure:generate": "allure generate allure-results --clean",
-    "allure:open": "allure open allure-report"
+    "allure:open": "allure open allure-report",
+    "test:allure": "npm-run-all -s -c cy:run:allure allure:generate"
   },
   "author": "Emerson Carvalho",
   "license": "ISC",
@@ -16,7 +17,8 @@
     "@faker-js/faker": "^7.6.0",
     "@shelex/cypress-allure-plugin": "^2.34.0",
     "allure-commandline": "^2.20.1",
-    "cypress": "^11.0.1"
+    "cypress": "^11.0.1",
+    "npm-run-all": "^4.1.5"
   },
   "dependencies": {
     "http-status-codes": "^2.2.0",
