@@ -22,19 +22,53 @@ describe("Product Reviews", () => {
   });
 
   it("Retrieve a product review by ID - Aceitação", () => {
-    let reviewId = 553;
-    cy.getProductsReviewsByID(tokenFixture.token, reviewId).then((res) => {
-      expect(res).to.exist;
-      expect(res.status).to.eq(StatusCodes.OK);
+    let productId = 22;
+    let reviewText =
+      faker.commerce.productDescription() + faker.company.companySuffix();
+    let name = faker.name.fullName();
+    let email = faker.internet.email(name);
+    let rating = faker.datatype.number(5);
+
+    cy.postProductsReviews(
+      tokenFixture.token,
+      productId,
+      reviewText,
+      name,
+      email,
+      rating
+    ).then((res) => {
+      let reviewId = res.body.id;
+      let force = true;
+      cy.getProductsReviewsByID(tokenFixture.token, reviewId).then((res) => {
+        expect(res).to.exist;
+        expect(res.status).to.eq(StatusCodes.OK);
+      });
+      return cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force);
     });
   });
 
   it("Retrieve a product review by ID - Contrato", () => {
-    let reviewId = 553;
-    cy.getProductsReviewsByID(tokenFixture.token, reviewId).then((res) => {
-      for (let i = 0; i < res.body.length; i++) {
-        return productsReviewsSchema.validateAsync(res.body[i]);
-      }
+    let productId = 22;
+    let reviewText =
+      faker.commerce.productDescription() + faker.company.companySuffix();
+    let name = faker.name.fullName();
+    let email = faker.internet.email(name);
+    let rating = faker.datatype.number(5);
+
+    cy.postProductsReviews(
+      tokenFixture.token,
+      productId,
+      reviewText,
+      name,
+      email,
+      rating
+    ).then((res) => {
+      let reviewId = res.body.id;
+      let force = true;
+      return (
+        productsReviewsSchema.validateAsync(res.body),
+        cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force)
+      );
     });
   });
 
