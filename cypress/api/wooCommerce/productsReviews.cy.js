@@ -6,6 +6,13 @@ import tokenFixture from "../../fixtures/token.json";
 import productsReviewsSchema from "../../contracts/productsReviews.contract";
 
 describe("Product Reviews", () => {
+  let productId = 22;
+  let reviewText =
+    faker.commerce.productDescription() + faker.company.companySuffix();
+  let name = faker.name.fullName();
+  let email = faker.internet.email(name);
+  let rating = faker.datatype.number(5);
+
   it("List all product reviews - Aceitação", () => {
     cy.getProductsReviews(tokenFixture.token).then((res) => {
       expect(res).to.exist;
@@ -22,13 +29,6 @@ describe("Product Reviews", () => {
   });
 
   it("Retrieve a product review by ID - Aceitação", () => {
-    let productId = 22;
-    let reviewText =
-      faker.commerce.productDescription() + faker.company.companySuffix();
-    let name = faker.name.fullName();
-    let email = faker.internet.email(name);
-    let rating = faker.datatype.number(5);
-
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -48,13 +48,6 @@ describe("Product Reviews", () => {
   });
 
   it("Retrieve a product review by ID - Contrato", () => {
-    let productId = 22;
-    let reviewText =
-      faker.commerce.productDescription() + faker.company.companySuffix();
-    let name = faker.name.fullName();
-    let email = faker.internet.email(name);
-    let rating = faker.datatype.number(5);
-
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -73,13 +66,6 @@ describe("Product Reviews", () => {
   });
 
   it("Create a product review - Aceitação", () => {
-    let productId = 22;
-    let reviewText =
-      faker.commerce.productDescription() + faker.company.companySuffix();
-    let name = faker.name.fullName();
-    let email = faker.internet.email(name);
-    let rating = faker.datatype.number(5);
-
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -96,14 +82,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it.only("Create a product review - Contrato", () => {
-    let productId = 22;
-    let reviewText =
-      faker.commerce.productDescription() + faker.company.companySuffix();
-    let name = faker.name.fullName();
-    let email = faker.internet.email(name);
-    let rating = faker.datatype.number(5);
-
+  it("Create a product review - Contrato", () => {
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -122,13 +101,6 @@ describe("Product Reviews", () => {
   });
 
   it("Update a product review - Aceitação", () => {
-    let productId = 22;
-    let reviewText =
-      faker.commerce.productDescription() + faker.company.companySuffix();
-    let name = faker.name.fullName();
-    let email = faker.internet.email(name);
-    let rating = faker.datatype.number(5);
-
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -145,9 +117,9 @@ describe("Product Reviews", () => {
         newReviewText,
         rating
       ).then((res) => {
+        let force = true;
         expect(res).to.exist;
         expect(res.status).to.eq(StatusCodes.OK);
-        let force = true;
         return cy.deleteProductsReviewsByID(
           tokenFixture.token,
           reviewId,
@@ -158,13 +130,6 @@ describe("Product Reviews", () => {
   });
 
   it("Update a product review - Contrato", () => {
-    let productId = 22;
-    let reviewText =
-      faker.commerce.productDescription() + faker.company.companySuffix();
-    let name = faker.name.fullName();
-    let email = faker.internet.email(name);
-    let rating = faker.datatype.number(5);
-
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -191,13 +156,6 @@ describe("Product Reviews", () => {
   });
 
   it("Delete a product review - Aceitação", () => {
-    let productId = 22;
-    let reviewText =
-      faker.commerce.productDescription() + faker.company.companySuffix();
-    let name = faker.name.fullName();
-    let email = faker.internet.email(name);
-    let rating = faker.datatype.number(5);
-
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -208,7 +166,6 @@ describe("Product Reviews", () => {
     ).then((res) => {
       let reviewId = res.body.id;
       let force = true;
-
       cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force).then(
         (res) => {
           expect(res).to.exist;
@@ -220,13 +177,6 @@ describe("Product Reviews", () => {
   });
 
   it("Delete a product review - Contrato", () => {
-    let productId = 22;
-    let reviewText =
-      faker.commerce.productDescription() + faker.company.companySuffix();
-    let name = faker.name.fullName();
-    let email = faker.internet.email(name);
-    let rating = faker.datatype.number(5);
-
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -237,7 +187,6 @@ describe("Product Reviews", () => {
     ).then((res) => {
       let reviewId = res.body.id;
       let force = true;
-
       cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force).then(
         (res) => {
           return productsReviewsSchema.validateAsync(res.body.previous);
