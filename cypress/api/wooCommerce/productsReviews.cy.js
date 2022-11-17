@@ -107,7 +107,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it.only("Update a product review - Aceitação", () => {
+  it("Update a product review - Aceitação", () => {
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -117,12 +117,13 @@ describe("Product Reviews", () => {
       rating
     ).then((res) => {
       let reviewId = res.body.id;
+      let newRating = faker.datatype.number(5);
       let newReviewText = faker.lorem.sentence(5);
       cy.putProductsReviewsByID(
         tokenFixture.token,
         reviewId,
         newReviewText,
-        rating
+        newRating
       ).then((res) => {
         let force = true;
         expect(res.status).to.eq(StatusCodes.OK);
@@ -130,7 +131,7 @@ describe("Product Reviews", () => {
         expect(res.body.review).to.eq(newReviewText);
         expect(res.body.reviewer).to.eq(name);
         expect(res.body.reviewer_email).to.eq(email);
-        expect(res.body.rating).to.eq(rating);
+        expect(res.body.rating).to.eq(newRating);
         return cy.deleteProductsReviewsByID(
           tokenFixture.token,
           reviewId,
@@ -150,12 +151,13 @@ describe("Product Reviews", () => {
       rating
     ).then((res) => {
       let reviewId = res.body.id;
+      let newRating = faker.datatype.number(5);
       let newReviewText = faker.lorem.sentence(5);
       cy.putProductsReviewsByID(
         tokenFixture.token,
         reviewId,
         newReviewText,
-        rating
+        newRating
       ).then((res) => {
         let force = true;
         return (
@@ -179,9 +181,13 @@ describe("Product Reviews", () => {
       let force = true;
       cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force).then(
         (res) => {
-          expect(res).to.exist;
           expect(res.status).to.eq(StatusCodes.OK);
           expect(res.body.deleted).to.be.true;
+          expect(res.body.previous.product_id).to.eq(productId);
+          expect(res.body.previous.review).to.eq(reviewText);
+          expect(res.body.previous.reviewer).to.eq(name);
+          expect(res.body.previous.reviewer_email).to.eq(email);
+          expect(res.body.previous.rating).to.eq(rating);
         }
       );
     });
