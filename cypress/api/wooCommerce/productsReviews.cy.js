@@ -141,7 +141,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it.only("Update a product review - Contrato", () => {
+  it("Update a product review - Contrato", () => {
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
