@@ -7,13 +7,12 @@ import productsReviewsSchema from "../../contracts/productsReviews.contract";
 
 describe("Product Reviews", () => {
   let productId = 22;
-  let reviewText =
-    faker.commerce.productDescription() + faker.company.companySuffix();
+  let reviewText = faker.commerce.productDescription();
   let name = faker.name.fullName();
   let email = faker.internet.email(name);
   let rating = faker.datatype.number(5);
 
-  it.only("List all product reviews - Aceitação", () => {
+  it("List all product reviews - Aceitação", () => {
     cy.getProductsReviews(tokenFixture.token).then((res) => {
       expect(res.status).to.eq(StatusCodes.OK);
       expect(res.body).to.have.length.greaterThan(0);
@@ -28,7 +27,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it("Retrieve a product review by ID - Aceitação", () => {
+  it.only("Retrieve a product review by ID - Aceitação", () => {
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -40,8 +39,12 @@ describe("Product Reviews", () => {
       let reviewId = res.body.id;
       let force = true;
       cy.getProductsReviewsByID(tokenFixture.token, reviewId).then((res) => {
-        expect(res).to.exist;
         expect(res.status).to.eq(StatusCodes.OK);
+        expect(res.body.product_id).to.eq(productId);
+        expect(res.body.review).to.contain(reviewText);
+        expect(res.body.reviewer).to.eq(name);
+        expect(res.body.reviewer_email).to.eq(email);
+        expect(res.body.rating).to.eq(rating);
       });
       return cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force);
     });
