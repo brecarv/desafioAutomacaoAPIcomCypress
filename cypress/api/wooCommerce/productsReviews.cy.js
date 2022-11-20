@@ -161,7 +161,7 @@ describe("Product Reviews", () => {
       ).then((res) => {
         let force = true;
         return (
-          productsReviewsSchema.validateAsync(res.body.previous),
+          productsReviewsSchema.validateAsync(res.body),
           cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force)
         );
       });
