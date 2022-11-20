@@ -10,6 +10,7 @@ module.exports = defineConfig({
     env: {
       wooCommerce: "https://cena.reset.cwi.com.br/index.php/wp-json/wc/v3",
       productsReviews: "/products/reviews",
+      productsCategories: "/products/categories",
     },
     specPattern: "cypress/api/**/*.{js,jsx,ts,tsx}",
   },
