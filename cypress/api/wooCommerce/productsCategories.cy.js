@@ -6,7 +6,7 @@ import tokenFixture from "../../fixtures/token.json";
 import productsCategoriesSchema from "../../contracts/productsCategories.contract";
 
 describe("Product Categories", () => {
-  let name = "Test2011";
+  let name = faker.word.adjective();
   let description = faker.commerce.productName();
 
   it("List all product categories - Acceptance", () => {
@@ -55,7 +55,7 @@ describe("Product Categories", () => {
     );
   });
 
-  it.only("Update a product category - Acceptance", () => {
+  it("Update a product category - Acceptance", () => {
     let categoryID = 534;
     cy.putProductsCategoriesByID(
       tokenFixture.token,
@@ -67,7 +67,7 @@ describe("Product Categories", () => {
     });
   });
 
-  it.only("Update a product category - Contract", () => {
+  it("Update a product category - Contract", () => {
     let categoryID = 534;
     cy.putProductsCategoriesByID(
       tokenFixture.token,
@@ -75,6 +75,35 @@ describe("Product Categories", () => {
       description
     ).then((res) => {
       return productsCategoriesSchema.validateAsync(res.body);
+    });
+  });
+
+  it.only("Delete a product category - Acceptance ", () => {
+    cy.postProductsCategories(tokenFixture.token, name).then((res) => {
+      let categoryID = res.body.id;
+      let force = true;
+      cy.deleteProductsCategoriesByID(
+        tokenFixture.token,
+        categoryID,
+        force
+      ).then((res) => {
+        expect(res.status).to.eq(StatusCodes.OK);
+        expect(res.body.id).to.eq(categoryID);
+      });
+    });
+  });
+
+  it.only("Delete a product category - Contract  ", () => {
+    cy.postProductsCategories(tokenFixture.token, name).then((res) => {
+      let categoryID = res.body.id;
+      let force = true;
+      cy.deleteProductsCategoriesByID(
+        tokenFixture.token,
+        categoryID,
+        force
+      ).then((res) => {
+        return productsCategoriesSchema.validateAsync(res.body);
+      });
     });
   });
 });

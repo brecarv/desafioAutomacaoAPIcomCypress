@@ -48,3 +48,19 @@ Cypress.Commands.add("putProductsCategoriesByID", (token, id, description) => {
     },
   });
 });
+
+Cypress.Commands.add("deleteProductsCategoriesByID", (token, id, force) => {
+  cy.request({
+    method: "DELETE",
+    url:
+      Cypress.env("wooCommerce") +
+      Cypress.env("productsCategories") +
+      "/" +
+      id +
+      "?force=" +
+      force,
+    headers: {
+      Authorization: token,
+    },
+  });
+});
