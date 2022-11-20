@@ -18,3 +18,19 @@ Cypress.Commands.add("getProductsCategoriesByID", (token, id) => {
     },
   });
 });
+
+Cypress.Commands.add("postProductsCategories", (token, name, image) => {
+  cy.request({
+    method: "POST",
+    url: Cypress.env("wooCommerce") + Cypress.env("productsCategories"),
+    headers: {
+      Authorization: token,
+    },
+    body: {
+      name: name,
+      image: {
+        src: image,
+      },
+    },
+  });
+});
