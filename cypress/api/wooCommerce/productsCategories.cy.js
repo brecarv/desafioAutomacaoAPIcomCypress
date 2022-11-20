@@ -67,14 +67,15 @@ describe("Product Categories", () => {
     });
   });
 
-  it.only("Update a product category - Acceptance", () => {
+  it.only("Update a product category - Contract", () => {
     let categoryID = 534;
     cy.putProductsCategoriesByID(
       tokenFixture.token,
       categoryID,
       description
     ).then((res) => {
-      return productsCategoriesSchema.validateAsync(res.body);
+      expect(res.status).to.eq(StatusCodes.OK);
+      expect(res.body.description).to.eq(description);
     });
   });
 });
