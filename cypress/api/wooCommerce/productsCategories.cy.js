@@ -7,7 +7,7 @@ import productsCategoriesSchema from "../../contracts/productsCategories.contrac
 
 describe("Product Categories", () => {
   let name = "Test2011";
-  let description = faker.commerce.productDescription();
+  let description = faker.commerce.productName();
 
   it("List all product categories - Acceptance", () => {
     cy.getProductsCategories(tokenFixture.token).then((res) => {
@@ -74,8 +74,7 @@ describe("Product Categories", () => {
       categoryID,
       description
     ).then((res) => {
-      expect(res.status).to.eq(StatusCodes.OK);
-      expect(res.body.description).to.eq(description);
+      return productsCategoriesSchema.validateAsync(res.body);
     });
   });
 });
