@@ -7,6 +7,7 @@ import productsCategoriesSchema from "../../contracts/productsCategories.contrac
 
 describe("Product Categories", () => {
   let name = "Test2011";
+  let description = faker.commerce.productDescription();
 
   it("List all product categories - Acceptance", () => {
     cy.getProductsCategories(tokenFixture.token).then((res) => {
@@ -52,5 +53,29 @@ describe("Product Categories", () => {
         return productsCategoriesSchema.validateAsync(res.body);
       }
     );
+  });
+
+  it.only("Update a product category - Acceptance", () => {
+    let categoryID = 534;
+    cy.putProductsCategoriesByID(
+      tokenFixture.token,
+      categoryID,
+      description
+    ).then((res) => {
+      expect(res.status).to.eq(StatusCodes.OK);
+      expect(res.body.description).to.eq(description);
+    });
+  });
+
+  it.only("Update a product category - Acceptance", () => {
+    let categoryID = 534;
+    cy.putProductsCategoriesByID(
+      tokenFixture.token,
+      categoryID,
+      description
+    ).then((res) => {
+      expect(res.status).to.eq(StatusCodes.OK);
+      expect(res.body.description).to.eq(description);
+    });
   });
 });
