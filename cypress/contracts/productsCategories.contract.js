@@ -16,7 +16,9 @@ const productsCategoriesSchema = Joi.object({
     src: Joi.string().required(),
     name: Joi.string().allow("").required(),
     alt: Joi.string().allow("").required(),
-  }).required(),
+  })
+    .allow(null)
+    .required(),
   menu_order: Joi.number().required(),
   count: Joi.number().required(),
   _links: Joi.object({
