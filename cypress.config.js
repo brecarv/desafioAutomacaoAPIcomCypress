@@ -9,6 +9,7 @@ module.exports = defineConfig({
     },
     env: {
       wooCommerce: "https://cena.reset.cwi.com.br/index.php/wp-json/wc/v3",
+      products: "/products",
       productsReviews: "/products/reviews",
       productsCategories: "/products/categories",
     },
