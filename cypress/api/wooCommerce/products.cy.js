@@ -84,4 +84,23 @@ describe("Products", () => {
       return productsSchema.validateAsync(res.body);
     });
   });
+
+  it.only("Update a product - Acceptance", () => {
+    let productID = 5117;
+    cy.putProductsByID(tokenFixture.token, productID, productPrice).then(
+      (res) => {
+        expect(res.status).to.eq(StatusCodes.OK);
+        expect(res.body.price).to.eq(productPrice);
+      }
+    );
+  });
+
+  it.only("Update a product - Contract", () => {
+    let productID = 5117;
+    cy.putProductsByID(tokenFixture.token, productID, productPrice).then(
+      (res) => {
+        return productsSchema.validateAsync(res.body);
+      }
+    );
+  });
 });

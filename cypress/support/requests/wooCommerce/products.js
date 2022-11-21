@@ -46,3 +46,16 @@ Cypress.Commands.add(
     });
   }
 );
+
+Cypress.Commands.add("putProductsByID", (token, id, regular_price) => {
+  cy.request({
+    method: "PUT",
+    url: Cypress.env("wooCommerce") + Cypress.env("products") + "/" + id,
+    headers: {
+      Authorization: token,
+    },
+    body: {
+      regular_price: regular_price,
+    },
+  });
+});
