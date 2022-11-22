@@ -85,7 +85,7 @@ describe("Products", () => {
     });
   });
 
-  it.only("Update a product - Acceptance", () => {
+  it("Update a product - Acceptance", () => {
     let productID = 5117;
     cy.putProductsByID(tokenFixture.token, productID, productPrice).then(
       (res) => {
@@ -95,12 +95,29 @@ describe("Products", () => {
     );
   });
 
-  it.only("Update a product - Contract", () => {
+  it("Update a product - Contract", () => {
     let productID = 5117;
     cy.putProductsByID(tokenFixture.token, productID, productPrice).then(
       (res) => {
         return productsSchema.validateAsync(res.body);
       }
     );
+  });
+
+  it.skip("Delete a product - Acceptance", () => {
+    let productID = 5110;
+    let force = true;
+    cy.deleteProductsByID(tokenFixture.token, productID, force).then((res) => {
+      expect(res.status).to.eq(StatusCodes.OK);
+      expect(res.body.id).to.eq(productID);
+    });
+  });
+
+  it.skip("Delete a product - Acceptance", () => {
+    let productID = 5111;
+    let force = true;
+    cy.deleteProductsByID(tokenFixture.token, productID, force).then((res) => {
+      return productsSchema.validateAsync(res.body);
+    });
   });
 });

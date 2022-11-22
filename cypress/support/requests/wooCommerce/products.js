@@ -59,3 +59,19 @@ Cypress.Commands.add("putProductsByID", (token, id, regular_price) => {
     },
   });
 });
+
+Cypress.Commands.add("deleteProductsByID", (token, id, force) => {
+  cy.request({
+    method: "DELETE",
+    url:
+      Cypress.env("wooCommerce") +
+      Cypress.env("products") +
+      "/" +
+      id +
+      "?force=" +
+      force,
+    headers: {
+      Authorization: token,
+    },
+  });
+});
