@@ -8,7 +8,7 @@ Cypress.Commands.add("getProducts", (token) => {
   });
 });
 
-Cypress.Commands.add("getProductsByID", (token, id) => {
+Cypress.Commands.add("getProductByID", (token, id) => {
   cy.request({
     method: "GET",
     url: Cypress.env("wooCommerce") + Cypress.env("products") + "/" + id,
@@ -19,7 +19,7 @@ Cypress.Commands.add("getProductsByID", (token, id) => {
 });
 
 Cypress.Commands.add(
-  "postProducts",
+  "postProduct",
   (
     token,
     name,
@@ -47,7 +47,7 @@ Cypress.Commands.add(
   }
 );
 
-Cypress.Commands.add("putProductsByID", (token, id, regular_price) => {
+Cypress.Commands.add("putProductByID", (token, id, regular_price) => {
   cy.request({
     method: "PUT",
     url: Cypress.env("wooCommerce") + Cypress.env("products") + "/" + id,
@@ -60,7 +60,7 @@ Cypress.Commands.add("putProductsByID", (token, id, regular_price) => {
   });
 });
 
-Cypress.Commands.add("deleteProductsByID", (token, id, force) => {
+Cypress.Commands.add("deleteProductByID", (token, id, force) => {
   cy.request({
     method: "DELETE",
     url:

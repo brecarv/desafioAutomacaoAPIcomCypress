@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 
 import tokenFixture from "../../fixtures/token.json";
 
-import productsSchema from "../../contracts/products.contract";
+import productSchema from "../../contracts/product.contract";
 
 describe("Products", () => {
   let productName = faker.commerce.product();
@@ -22,13 +22,13 @@ describe("Products", () => {
       expect(res.status).to.eq(StatusCodes.OK);
       expect(res.body).to.have.length.greaterThan(0);
       for (let i = 0; i < res.body.length; i++) {
-        return productsSchema.validateAsync(res.body[i]);
+        return productSchema.validateAsync(res.body[i]);
       }
     });
   });
 
   it("Retrieve a product - Acceptance and Contract", () => {
-    cy.postProducts(
+    cy.postProduct(
       tokenFixture.token,
       productName,
       productType,
@@ -39,7 +39,7 @@ describe("Products", () => {
     ).then((res) => {
       let productID = res.body.id;
       let force = true;
-      cy.getProductsByID(tokenFixture.token, productID).then((res) => {
+      cy.getProductByID(tokenFixture.token, productID).then((res) => {
         expect(res.status).to.eq(StatusCodes.OK);
         expect(res.body.id).to.eq(productID);
         expect(res.body.name).to.eq(productName);
@@ -49,15 +49,15 @@ describe("Products", () => {
         expect(res.body.short_description).to.include(productShortDescription);
         expect(res.body.categories[0]).to.have.any.property("id");
         return (
-          productsSchema.validateAsync(res.body),
-          cy.deleteProductsByID(tokenFixture.token, productID, force)
+          productSchema.validateAsync(res.body),
+          cy.deleteProductByID(tokenFixture.token, productID, force)
         );
       });
     });
   });
 
   it("Create a product - Acceptance and Contract", () => {
-    cy.postProducts(
+    cy.postProduct(
       tokenFixture.token,
       productName,
       productType,
@@ -76,14 +76,14 @@ describe("Products", () => {
       expect(res.body.short_description).to.eq(productShortDescription);
       expect(res.body.categories[0]).to.have.any.property("id");
       return (
-        productsSchema.validateAsync(res.body),
-        cy.deleteProductsByID(tokenFixture.token, productID, force)
+        productSchema.validateAsync(res.body),
+        cy.deleteProductByID(tokenFixture.token, productID, force)
       );
     });
   });
 
   it("Update a product - Acceptance and Contract", () => {
-    cy.postProducts(
+    cy.postProduct(
       tokenFixture.token,
       productName,
       productType,
@@ -95,13 +95,13 @@ describe("Products", () => {
       let productID = res.body.id;
       let newProductPrice = Number(productPrice / 2).toString();
       let force = true;
-      cy.putProductsByID(tokenFixture.token, productID, newProductPrice).then(
+      cy.putProductByID(tokenFixture.token, productID, newProductPrice).then(
         (res) => {
           expect(res.status).to.eq(StatusCodes.OK);
           expect(res.body.price).to.eq(newProductPrice);
           return (
-            productsSchema.validateAsync(res.body),
-            cy.deleteProductsByID(tokenFixture.token, productID, force)
+            productSchema.validateAsync(res.body),
+            cy.deleteProductByID(tokenFixture.token, productID, force)
           );
         }
       );
@@ -109,7 +109,7 @@ describe("Products", () => {
   });
 
   it("Delete a product - Acceptance and Contract", () => {
-    cy.postProducts(
+    cy.postProduct(
       tokenFixture.token,
       productName,
       productType,
@@ -120,13 +120,11 @@ describe("Products", () => {
     ).then((res) => {
       let productID = res.body.id;
       let force = true;
-      cy.deleteProductsByID(tokenFixture.token, productID, force).then(
-        (res) => {
-          expect(res.status).to.eq(StatusCodes.OK);
-          expect(res.body.id).to.eq(productID);
-          return productsSchema.validateAsync(res.body);
-        }
-      );
+      cy.deleteProductByID(tokenFixture.token, productID, force).then((res) => {
+        expect(res.status).to.eq(StatusCodes.OK);
+        expect(res.body.id).to.eq(productID);
+        return productSchema.validateAsync(res.body);
+      });
     });
   });
 });

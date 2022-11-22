@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const productsSchema = Joi.object({
+const productSchema = Joi.object({
   id: Joi.number().required(),
   name: Joi.string().required(),
   slug: Joi.string().required(),
@@ -110,4 +110,4 @@ const productsSchema = Joi.object({
   }),
 });
 
-export default productsSchema;
+export default productSchema;
