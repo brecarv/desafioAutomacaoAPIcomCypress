@@ -12,7 +12,7 @@ describe("Product Reviews", () => {
   let email = faker.internet.email(name);
   let rating = faker.datatype.number(5);
 
-  it.only("List all product reviews - Acceptance and Contract", () => {
+  it("List all product reviews - Acceptance and Contract", () => {
     cy.getProductsReviews(tokenFixture.token).then((res) => {
       expect(res.status).to.eq(StatusCodes.OK);
       expect(res.body).to.have.length.greaterThan(0);
@@ -22,7 +22,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it.only("Retrieve a product review by ID - Acceptance and Contract", () => {
+  it("Retrieve a product review - Acceptance and Contract", () => {
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -48,7 +48,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it.only("Create a product review - Acceptance and Contract", () => {
+  it("Create a product review - Acceptance and Contract", () => {
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -72,7 +72,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it.only("Update a product review - Acceptance and Contract", () => {
+  it("Update a product review - Acceptance and Contract", () => {
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -105,7 +105,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it("Delete a product review - Aceitação", () => {
+  it("Delete a product review - Acceptance and Contract", () => {
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -125,24 +125,6 @@ describe("Product Reviews", () => {
           expect(res.body.previous.reviewer).to.eq(name);
           expect(res.body.previous.reviewer_email).to.eq(email);
           expect(res.body.previous.rating).to.eq(rating);
-        }
-      );
-    });
-  });
-
-  it("Delete a product review - Contrato", () => {
-    cy.postProductsReviews(
-      tokenFixture.token,
-      productId,
-      reviewText,
-      name,
-      email,
-      rating
-    ).then((res) => {
-      let reviewId = res.body.id;
-      let force = true;
-      cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force).then(
-        (res) => {
           return productsReviewsSchema.validateAsync(res.body.previous);
         }
       );
