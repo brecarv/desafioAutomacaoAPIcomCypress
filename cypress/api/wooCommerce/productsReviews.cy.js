@@ -12,15 +12,10 @@ describe("Product Reviews", () => {
   let email = faker.internet.email(name);
   let rating = faker.datatype.number(5);
 
-  it("List all product reviews - Aceitação", () => {
+  it.only("List all product reviews - Acceptance and Contract", () => {
     cy.getProductsReviews(tokenFixture.token).then((res) => {
       expect(res.status).to.eq(StatusCodes.OK);
       expect(res.body).to.have.length.greaterThan(0);
-    });
-  });
-
-  it("List all product reviews - Contrato", () => {
-    cy.getProductsReviews(tokenFixture.token).then((res) => {
       for (let i = 0; i < res.body.length; i++) {
         return productsReviewsSchema.validateAsync(res.body[i]);
       }
