@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 
 import tokenFixture from "../../fixtures/token.json";
 
-import productReviewSchema from "../../contracts/productReview.contract";
+import productReviewsSchema from "../../contracts/productReviews.contract";
 
 describe("Product Reviews", () => {
   let productId = 22;
@@ -17,7 +17,7 @@ describe("Product Reviews", () => {
       expect(res.status).to.eq(StatusCodes.OK);
       expect(res.body).to.have.length.greaterThan(0);
       for (let i = 0; i < res.body.length; i++) {
-        return productReviewSchema.validateAsync(res.body[i]);
+        return productReviewsSchema.validateAsync(res.body[i]);
       }
     });
   });
@@ -42,7 +42,7 @@ describe("Product Reviews", () => {
         expect(res.body.rating).to.eq(rating);
       });
       return (
-        productReviewSchema.validateAsync(res.body),
+        productReviewsSchema.validateAsync(res.body),
         cy.deleteProductReviewByID(tokenFixture.token, reviewId, force)
       );
     });
@@ -66,7 +66,7 @@ describe("Product Reviews", () => {
       expect(res.body.reviewer_email).to.eq(email);
       expect(res.body.rating).to.eq(rating);
       return (
-        productReviewSchema.validateAsync(res.body),
+        productReviewsSchema.validateAsync(res.body),
         cy.deleteProductReviewByID(tokenFixture.token, reviewId, force)
       );
     });
@@ -98,7 +98,7 @@ describe("Product Reviews", () => {
         expect(res.body.reviewer_email).to.eq(email);
         expect(res.body.rating).to.eq(newRating);
         return (
-          productReviewSchema.validateAsync(res.body),
+          productReviewsSchema.validateAsync(res.body),
           cy.deleteProductReviewByID(tokenFixture.token, reviewId, force)
         );
       });
@@ -125,7 +125,7 @@ describe("Product Reviews", () => {
           expect(res.body.previous.reviewer).to.eq(name);
           expect(res.body.previous.reviewer_email).to.eq(email);
           expect(res.body.previous.rating).to.eq(rating);
-          return productReviewSchema.validateAsync(res.body.previous);
+          return productReviewsSchema.validateAsync(res.body.previous);
         }
       );
     });
