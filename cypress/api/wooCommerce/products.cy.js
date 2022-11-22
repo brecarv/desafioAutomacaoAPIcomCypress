@@ -104,20 +104,25 @@ describe("Products", () => {
     );
   });
 
-  it.skip("Delete a product - Acceptance", () => {
-    let productID = 5110;
-    let force = true;
-    cy.deleteProductsByID(tokenFixture.token, productID, force).then((res) => {
-      expect(res.status).to.eq(StatusCodes.OK);
-      expect(res.body.id).to.eq(productID);
-    });
-  });
-
-  it.skip("Delete a product - Acceptance", () => {
-    let productID = 5111;
-    let force = true;
-    cy.deleteProductsByID(tokenFixture.token, productID, force).then((res) => {
-      return productsSchema.validateAsync(res.body);
+  it.only("Delete a product - Acceptance and Contract", () => {
+    cy.postProducts(
+      tokenFixture.token,
+      productName,
+      productType,
+      productPrice,
+      productDescription,
+      productShortDescription,
+      productCategories
+    ).then((res) => {
+      let productID = res.body.id;
+      let force = true;
+      cy.deleteProductsByID(tokenFixture.token, productID, force).then(
+        (res) => {
+          expect(res.status).to.eq(StatusCodes.OK);
+          expect(res.body.id).to.eq(productID);
+          return productsSchema.validateAsync(res.body);
+        }
+      );
     });
   });
 });
