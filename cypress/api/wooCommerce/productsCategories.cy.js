@@ -86,7 +86,7 @@ describe("Product Categories", () => {
     });
   });
 
-  it("Update a product category - Acceptance", () => {
+  it.only("Update a product category - Acceptance and Contract", () => {
     cy.postProductsCategories(tokenFixture.token, name).then((res) => {
       let categoryID = res.body.id;
       cy.putProductsCategoriesByID(
@@ -97,24 +97,6 @@ describe("Product Categories", () => {
         expect(res.status).to.eq(StatusCodes.OK);
         expect(res.body.description).to.eq(description);
         let force = true;
-        return cy.deleteProductsCategoriesByID(
-          tokenFixture.token,
-          categoryID,
-          force
-        );
-      });
-    });
-  });
-
-  it("Update a product category - Contract", () => {
-    cy.postProductsCategories(tokenFixture.token, name).then((res) => {
-      let categoryID = res.body.id;
-      cy.putProductsCategoriesByID(
-        tokenFixture.token,
-        categoryID,
-        description
-      ).then((res) => {
-        let force = true;
         return (
           productsCategoriesSchema.validateAsync(res.body),
           cy.deleteProductsCategoriesByID(tokenFixture.token, categoryID, force)
@@ -123,7 +105,7 @@ describe("Product Categories", () => {
     });
   });
 
-  it("Delete a product category - Acceptance and Contract", () => {
+  it.only("Delete a product category - Acceptance and Contract", () => {
     cy.postProductsCategories(tokenFixture.token, name).then((res) => {
       let categoryID = res.body.id;
       let force = true;
