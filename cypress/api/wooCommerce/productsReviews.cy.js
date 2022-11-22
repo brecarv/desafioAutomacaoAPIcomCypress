@@ -48,7 +48,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it("Create a product review - Aceitação", () => {
+  it.only("Create a product review - Acceptance and Contract", () => {
     cy.postProductsReviews(
       tokenFixture.token,
       productId,
@@ -65,21 +65,6 @@ describe("Product Reviews", () => {
       expect(res.body.reviewer).to.eq(name);
       expect(res.body.reviewer_email).to.eq(email);
       expect(res.body.rating).to.eq(rating);
-      return cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force);
-    });
-  });
-
-  it("Create a product review - Contrato", () => {
-    cy.postProductsReviews(
-      tokenFixture.token,
-      productId,
-      reviewText,
-      name,
-      email,
-      rating
-    ).then((res) => {
-      let reviewId = res.body.id;
-      let force = true;
       return (
         productsReviewsSchema.validateAsync(res.body),
         cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force)
