@@ -123,7 +123,7 @@ describe("Product Categories", () => {
     });
   });
 
-  it("Delete a product category - Acceptance ", () => {
+  it("Delete a product category - Acceptance and Contract", () => {
     cy.postProductsCategories(tokenFixture.token, name).then((res) => {
       let categoryID = res.body.id;
       let force = true;
@@ -134,19 +134,6 @@ describe("Product Categories", () => {
       ).then((res) => {
         expect(res.status).to.eq(StatusCodes.OK);
         expect(res.body.id).to.eq(categoryID);
-      });
-    });
-  });
-
-  it("Delete a product category - Contract  ", () => {
-    cy.postProductsCategories(tokenFixture.token, name).then((res) => {
-      let categoryID = res.body.id;
-      let force = true;
-      cy.deleteProductsCategoriesByID(
-        tokenFixture.token,
-        categoryID,
-        force
-      ).then((res) => {
         return productsCategoriesSchema.validateAsync(res.body);
       });
     });
