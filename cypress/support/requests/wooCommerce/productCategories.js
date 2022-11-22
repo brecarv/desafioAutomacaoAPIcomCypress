@@ -1,4 +1,4 @@
-Cypress.Commands.add("getProductsCategories", (token) => {
+Cypress.Commands.add("getProductCategories", (token) => {
   cy.request({
     method: "GET",
     url: Cypress.env("wooCommerce") + Cypress.env("productsCategories"),
@@ -8,7 +8,7 @@ Cypress.Commands.add("getProductsCategories", (token) => {
   });
 });
 
-Cypress.Commands.add("getProductsCategoriesByID", (token, id) => {
+Cypress.Commands.add("getProductCategoriesByID", (token, id) => {
   cy.request({
     method: "GET",
     url:
@@ -19,7 +19,7 @@ Cypress.Commands.add("getProductsCategoriesByID", (token, id) => {
   });
 });
 
-Cypress.Commands.add("postProductsCategories", (token, name, image) => {
+Cypress.Commands.add("postProductCategories", (token, name, image) => {
   cy.request({
     method: "POST",
     url: Cypress.env("wooCommerce") + Cypress.env("productsCategories"),
@@ -35,7 +35,7 @@ Cypress.Commands.add("postProductsCategories", (token, name, image) => {
   });
 });
 
-Cypress.Commands.add("putProductsCategoriesByID", (token, id, description) => {
+Cypress.Commands.add("putProductCategoriesByID", (token, id, description) => {
   cy.request({
     method: "PUT",
     url:
@@ -49,7 +49,7 @@ Cypress.Commands.add("putProductsCategoriesByID", (token, id, description) => {
   });
 });
 
-Cypress.Commands.add("deleteProductsCategoriesByID", (token, id, force) => {
+Cypress.Commands.add("deleteProductCategoriesByID", (token, id, force) => {
   cy.request({
     method: "DELETE",
     url:

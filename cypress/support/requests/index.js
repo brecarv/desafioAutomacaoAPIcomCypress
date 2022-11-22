@@ -1,3 +1,3 @@
-import "./wooCommerce/productsReviews";
-import "./wooCommerce/productsCategories";
-import "./wooCommerce/products";
+import "./wooCommerce/productReviews";
+import "./wooCommerce/productCategories";
+import "./wooCommerce/product";
