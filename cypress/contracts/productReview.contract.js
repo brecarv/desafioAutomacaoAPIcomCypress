@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const productsReviewsSchema = Joi.object({
+const productReviewSchema = Joi.object({
   id: Joi.number().required(),
   date_created: Joi.string().isoDate().required(),
   date_created_gmt: Joi.string().isoDate().required(),
@@ -41,4 +41,4 @@ const productsReviewsSchema = Joi.object({
   }),
 });
 
-export default productsReviewsSchema;
+export default productReviewSchema;

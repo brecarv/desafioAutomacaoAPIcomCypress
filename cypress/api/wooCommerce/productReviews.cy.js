@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 
 import tokenFixture from "../../fixtures/token.json";
 
-import productsReviewsSchema from "../../contracts/productsReviews.contract";
+import productReviewSchema from "../../contracts/productReview.contract";
 
 describe("Product Reviews", () => {
   let productId = 22;
@@ -17,13 +17,13 @@ describe("Product Reviews", () => {
       expect(res.status).to.eq(StatusCodes.OK);
       expect(res.body).to.have.length.greaterThan(0);
       for (let i = 0; i < res.body.length; i++) {
-        return productsReviewsSchema.validateAsync(res.body[i]);
+        return productReviewSchema.validateAsync(res.body[i]);
       }
     });
   });
 
   it("Retrieve a product review - Acceptance and Contract", () => {
-    cy.postProductsReviews(
+    cy.postProductReview(
       tokenFixture.token,
       productId,
       reviewText,
@@ -33,7 +33,7 @@ describe("Product Reviews", () => {
     ).then((res) => {
       let reviewId = res.body.id;
       let force = true;
-      cy.getProductsReviewsByID(tokenFixture.token, reviewId).then((res) => {
+      cy.getProductReviewByID(tokenFixture.token, reviewId).then((res) => {
         expect(res.status).to.eq(StatusCodes.OK);
         expect(res.body.product_id).to.eq(productId);
         expect(res.body.review).to.contain(reviewText);
@@ -42,14 +42,14 @@ describe("Product Reviews", () => {
         expect(res.body.rating).to.eq(rating);
       });
       return (
-        productsReviewsSchema.validateAsync(res.body),
-        cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force)
+        productReviewSchema.validateAsync(res.body),
+        cy.deleteProductReviewByID(tokenFixture.token, reviewId, force)
       );
     });
   });
 
   it("Create a product review - Acceptance and Contract", () => {
-    cy.postProductsReviews(
+    cy.postProductReview(
       tokenFixture.token,
       productId,
       reviewText,
@@ -66,14 +66,14 @@ describe("Product Reviews", () => {
       expect(res.body.reviewer_email).to.eq(email);
       expect(res.body.rating).to.eq(rating);
       return (
-        productsReviewsSchema.validateAsync(res.body),
-        cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force)
+        productReviewSchema.validateAsync(res.body),
+        cy.deleteProductReviewByID(tokenFixture.token, reviewId, force)
       );
     });
   });
 
   it("Update a product review - Acceptance and Contract", () => {
-    cy.postProductsReviews(
+    cy.postProductReview(
       tokenFixture.token,
       productId,
       reviewText,
@@ -84,7 +84,7 @@ describe("Product Reviews", () => {
       let reviewId = res.body.id;
       let newRating = faker.datatype.number(5);
       let newReviewText = faker.lorem.sentence(5);
-      cy.putProductsReviewsByID(
+      cy.putProductReviewByID(
         tokenFixture.token,
         reviewId,
         newReviewText,
@@ -98,15 +98,15 @@ describe("Product Reviews", () => {
         expect(res.body.reviewer_email).to.eq(email);
         expect(res.body.rating).to.eq(newRating);
         return (
-          productsReviewsSchema.validateAsync(res.body),
-          cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force)
+          productReviewSchema.validateAsync(res.body),
+          cy.deleteProductReviewByID(tokenFixture.token, reviewId, force)
         );
       });
     });
   });
 
   it("Delete a product review - Acceptance and Contract", () => {
-    cy.postProductsReviews(
+    cy.postProductReview(
       tokenFixture.token,
       productId,
       reviewText,
@@ -116,7 +116,7 @@ describe("Product Reviews", () => {
     ).then((res) => {
       let reviewId = res.body.id;
       let force = true;
-      cy.deleteProductsReviewsByID(tokenFixture.token, reviewId, force).then(
+      cy.deleteProductReviewByID(tokenFixture.token, reviewId, force).then(
         (res) => {
           expect(res.status).to.eq(StatusCodes.OK);
           expect(res.body.deleted).to.be.true;
@@ -125,7 +125,7 @@ describe("Product Reviews", () => {
           expect(res.body.previous.reviewer).to.eq(name);
           expect(res.body.previous.reviewer_email).to.eq(email);
           expect(res.body.previous.rating).to.eq(rating);
-          return productsReviewsSchema.validateAsync(res.body.previous);
+          return productReviewSchema.validateAsync(res.body.previous);
         }
       );
     });

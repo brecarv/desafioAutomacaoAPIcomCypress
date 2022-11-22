@@ -8,7 +8,7 @@ Cypress.Commands.add("getProductsReviews", (token) => {
   });
 });
 
-Cypress.Commands.add("getProductsReviewsByID", (token, id) => {
+Cypress.Commands.add("getProductReviewByID", (token, id) => {
   cy.request({
     method: "GET",
     url: Cypress.env("wooCommerce") + Cypress.env("productsReviews") + "/" + id,
@@ -19,7 +19,7 @@ Cypress.Commands.add("getProductsReviewsByID", (token, id) => {
 });
 
 Cypress.Commands.add(
-  "postProductsReviews",
+  "postProductReview",
   (token, productId, reviewText, author, authorEmail, rating) => {
     cy.request({
       method: "POST",
@@ -39,7 +39,7 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add(
-  "putProductsReviewsByID",
+  "putProductReviewByID",
   (token, id, reviewText, rating) => {
     cy.request({
       method: "PUT",
@@ -56,7 +56,7 @@ Cypress.Commands.add(
   }
 );
 
-Cypress.Commands.add("deleteProductsReviewsByID", (token, id, force) => {
+Cypress.Commands.add("deleteProductReviewByID", (token, id, force) => {
   cy.request({
     method: "DELETE",
     url:
