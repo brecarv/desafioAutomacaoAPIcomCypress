@@ -9,7 +9,7 @@ describe("Products", () => {
   let productName = faker.commerce.product();
   let productType = "simple";
   let productPrice = faker.commerce.price();
-  let productDescription = faker.commerce.productDescription();
+  let productDescription = faker.commerce.productAdjective();
   let productShortDescription = productDescription.substring(
     1,
     productDescription.length / 2
