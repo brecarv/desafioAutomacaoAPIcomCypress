@@ -9,45 +9,25 @@ describe("Product Categories", () => {
   let name = faker.word.adjective();
   let description = faker.commerce.productName();
 
-  it("List all product categories - Acceptance", () => {
+  it("List all product categories - Acceptance and Contract", () => {
     cy.getProductsCategories(tokenFixture.token).then((res) => {
       expect(res.status).to.eq(StatusCodes.OK);
       expect(res.body).to.have.length.greaterThan(0);
-    });
-  });
-
-  it("List all product categories - Contract", () => {
-    cy.getProductsCategories(tokenFixture.token).then((res) => {
       for (let i = 0; i < res.body.length; i++) {
         return productsCategoriesSchema.validateAsync(res.body[i]);
       }
     });
   });
 
-  it("Retrieve a product category - Acceptance", () => {
-    cy.postProductsCategories(tokenFixture.token, name).then((res) => {
-      let categoryID = res.body.id;
-      cy.getProductsCategoriesByID(tokenFixture.token, categoryID).then(
-        (res) => {
-          expect(res.status).to.eq(StatusCodes.OK);
-          expect(res.body.name).to.eq(name);
-          expect(res.body.image).to.eq(null);
-          return cy.deleteProductsCategoriesByID(
-            tokenFixture.token,
-            categoryID,
-            true
-          );
-        }
-      );
-    });
-  });
-
-  it("Retrieve a product category - Contract", () => {
+  it("Retrieve a product category - Acceptance and Contract", () => {
     cy.postProductsCategories(tokenFixture.token, name).then((res) => {
       let categoryID = res.body.id;
       let force = true;
       cy.getProductsCategoriesByID(tokenFixture.token, categoryID).then(
         (res) => {
+          expect(res.status).to.eq(StatusCodes.OK);
+          expect(res.body.name).to.eq(name);
+          expect(res.body.image).to.eq(null);
           return (
             productsCategoriesSchema.validateAsync(res.body),
             cy.deleteProductsCategoriesByID(
@@ -61,24 +41,12 @@ describe("Product Categories", () => {
     });
   });
 
-  it("Create a product category - Acceptance", () => {
+  it("Create a product category - Acceptance and Contract", () => {
     cy.postProductsCategories(tokenFixture.token, name).then((res) => {
       let categoryID = res.body.id;
       let force = true;
       expect(res.status).to.eq(StatusCodes.CREATED);
       expect(res.body.name).to.eq(name);
-      return cy.deleteProductsCategoriesByID(
-        tokenFixture.token,
-        categoryID,
-        force
-      );
-    });
-  });
-
-  it("Create a product category - Contract", () => {
-    cy.postProductsCategories(tokenFixture.token, name).then((res) => {
-      let categoryID = res.body.id;
-      let force = true;
       return (
         productsCategoriesSchema.validateAsync(res.body),
         cy.deleteProductsCategoriesByID(tokenFixture.token, categoryID, force)
@@ -86,7 +54,7 @@ describe("Product Categories", () => {
     });
   });
 
-  it.only("Update a product category - Acceptance and Contract", () => {
+  it("Update a product category - Acceptance and Contract", () => {
     cy.postProductsCategories(tokenFixture.token, name).then((res) => {
       let categoryID = res.body.id;
       cy.putProductsCategoriesByID(
@@ -105,7 +73,7 @@ describe("Product Categories", () => {
     });
   });
 
-  it.only("Delete a product category - Acceptance and Contract", () => {
+  it("Delete a product category - Acceptance and Contract", () => {
     cy.postProductsCategories(tokenFixture.token, name).then((res) => {
       let categoryID = res.body.id;
       let force = true;
