@@ -10,7 +10,7 @@ describe("Product Reviews", () => {
   let reviewText = faker.commerce.productDescription();
   let name = faker.name.fullName();
   let email = faker.internet.email(name);
-  let rating = faker.datatype.number(5);
+  let rating = faker.datatype.number({ min: 1, max: 5, precision: 1 });
 
   it("List all product reviews - Acceptance and Contract", () => {
     cy.getProductsReviews(tokenFixture.token).then((res) => {
@@ -82,7 +82,7 @@ describe("Product Reviews", () => {
       rating
     ).then((res) => {
       let reviewId = res.body.id;
-      let newRating = faker.datatype.number(5);
+      let newRating = faker.datatype.number({ min: 1, max: 5, precision: 1 });
       let newReviewText = faker.lorem.sentence(5);
       cy.putProductReviewByID(
         tokenFixture.token,
