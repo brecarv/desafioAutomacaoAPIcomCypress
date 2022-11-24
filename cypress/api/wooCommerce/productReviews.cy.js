@@ -17,7 +17,9 @@ describe("Product Reviews", () => {
       expect(res.status).to.eq(StatusCodes.OK);
       expect(res.body).to.have.length.greaterThan(0);
       for (let i = 0; i < res.body.length; i++) {
-        return productReviewsSchema.validateAsync(res.body[i]);
+        return productReviewsSchema.validateAsync(res.body[i], {
+          context: { method: "get" },
+        });
       }
     });
   });
@@ -42,7 +44,9 @@ describe("Product Reviews", () => {
         expect(res.body.rating).to.eq(rating);
       });
       return (
-        productReviewsSchema.validateAsync(res.body),
+        productReviewsSchema.validateAsync(res.body, {
+          context: { method: "get" },
+        }),
         cy.deleteProductReviewByID(tokenFixture.token, reviewId, force)
       );
     });
@@ -66,7 +70,9 @@ describe("Product Reviews", () => {
       expect(res.body.reviewer_email).to.eq(email);
       expect(res.body.rating).to.eq(rating);
       return (
-        productReviewsSchema.validateAsync(res.body),
+        productReviewsSchema.validateAsync(res.body, {
+          context: { method: "post" },
+        }),
         cy.deleteProductReviewByID(tokenFixture.token, reviewId, force)
       );
     });
@@ -98,7 +104,9 @@ describe("Product Reviews", () => {
         expect(res.body.reviewer_email).to.eq(email);
         expect(res.body.rating).to.eq(newRating);
         return (
-          productReviewsSchema.validateAsync(res.body),
+          productReviewsSchema.validateAsync(res.body, {
+            context: { method: "put" },
+          }),
           cy.deleteProductReviewByID(tokenFixture.token, reviewId, force)
         );
       });
@@ -125,7 +133,9 @@ describe("Product Reviews", () => {
           expect(res.body.previous.reviewer).to.eq(name);
           expect(res.body.previous.reviewer_email).to.eq(email);
           expect(res.body.previous.rating).to.eq(rating);
-          return productReviewsSchema.validateAsync(res.body.previous);
+          return productReviewsSchema.validateAsync(res.body, {
+            context: { method: "delete" },
+          });
         }
       );
     });
