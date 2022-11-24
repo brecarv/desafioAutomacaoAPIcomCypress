@@ -12,7 +12,7 @@ describe("Product Reviews", () => {
   let email = faker.internet.email(name);
   let rating = faker.datatype.number({ min: 1, max: 5, precision: 1 });
 
-  it("List all product reviews - Acceptance and Contract", () => {
+  it("List all product reviews - Aceitação e Contrato", () => {
     cy.getProductsReviews(tokenFixture.token).then((res) => {
       expect(res.status).to.eq(StatusCodes.OK);
       expect(res.body).to.have.length.greaterThan(0);
@@ -24,7 +24,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it("Retrieve a product review - Acceptance and Contract", () => {
+  it("Retrieve a product review - Aceitação e Contrato", () => {
     cy.postProductReview(
       tokenFixture.token,
       productId,
@@ -52,7 +52,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it("Create a product review - Acceptance and Contract", () => {
+  it("Create a product review - Aceitação e Contrato", () => {
     cy.postProductReview(
       tokenFixture.token,
       productId,
@@ -78,7 +78,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it("Update a product review - Acceptance and Contract", () => {
+  it("Update a product review - Aceitação e Contrato", () => {
     cy.postProductReview(
       tokenFixture.token,
       productId,
@@ -113,7 +113,7 @@ describe("Product Reviews", () => {
     });
   });
 
-  it("Delete a product review - Acceptance and Contract", () => {
+  it("Delete a product review - Aceitação e Contrato", () => {
     cy.postProductReview(
       tokenFixture.token,
       productId,
